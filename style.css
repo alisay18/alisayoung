@@ -8,7 +8,6 @@ body {
     background-image: url('https://i.pinimg.com/1200x/7a/32/83/7a32830bdcf1dc41e5245d6a944406a2.jpg');
 
 header {
-    background: #333;
     color: #fff;
     padding: 10px 20px;
 }
@@ -54,7 +53,45 @@ footer {
 }
 
 .hero {
-    height: 850px;
     width: auto;
-    background: darkgrey;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: repeating-linear-gradient(
+          45deg,
+          #000000 0%,
+          #2b2b2b 25%,
+          #565656 50%,
+          #808080 75%,
+          #c0c0c0 100%
+        );
+        background: -webkit-linear-gradient(45deg, #000000 0%, #2b2b2b 25%, #565656 50%, #808080 75%, #c0c0c0 100%);
+        background: -moz-linear-gradient(45deg, #000000 0%, #2b2b2b 25%, #565656 50%, #808080 75%, #c0c0c0 100%);
+        background: linear-gradient(45deg, #000000 0%, #2b2b2b 25%, #565656 50%, #808080 75%, #c0c0c0 100%);
+
+        background-size: 400% 400%;
+        animation: gradientWave 5s ease infinite;
+      }
+
+      h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        font-size: 3rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin: 0;
+      }
+
+      @keyframes gradientWave {
+        0% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      
     }
