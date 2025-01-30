@@ -45,10 +45,16 @@ footer {
     color: #fff;
 }
 
-[id="E0917550392"].page {
+.page {
 	min-height: var(--viewport-height);
 }
 
-[id="E0917550392"] .page-content {
+.page-content {
 	align-items: flex-start;
 }
+
+.hero {
+    height: 850px;
+    width: auto;
+    background: darkgrey;
+    }
