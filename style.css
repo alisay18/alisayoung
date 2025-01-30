@@ -44,3 +44,11 @@ footer {
     background: #333;
     color: #fff;
 }
+
+[id="E0917550392"].page {
+	min-height: var(--viewport-height);
+}
+
+[id="E0917550392"] .page-content {
+	align-items: flex-start;
+}
