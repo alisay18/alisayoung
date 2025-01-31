@@ -7,12 +7,21 @@ body {
     color: #ffffff;
     background-image: url('https://i.pinimg.com/1200x/7a/32/83/7a32830bdcf1dc41e5245d6a944406a2.jpg');
 
-header {
+header h1{
     color: #fff;
     padding: 10px 20px;
 }
 
 header h1 {
+    margin: 0;
+}
+
+header h2{
+    color: #fff;
+    padding: 10px 20px;
+}
+
+header h2 {
     margin: 0;
 }
 
@@ -38,9 +47,7 @@ section {
 }
 
 footer {
-    text-align: center;
-    padding: 10px;
-    background: #333;
+    text-align: left;
     color: #fff;
 }
 
@@ -85,6 +92,18 @@ footer {
         margin: 0;
       }
 
+      h2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 125%);
+        color: white;
+        text-align: center;
+        font-size: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin: 0;
+      }
+
       @keyframes gradientWave {
         0% {
           background-position: 100% 50%;
@@ -94,4 +113,16 @@ footer {
         }
       }
       
+    }
+
+    body {
+        text-align: center;
+    }
+    
+    h1 {
+        margin-bottom: 10px;
+    }
+    
+    .caption {
+        margin-top: 0;
     }
