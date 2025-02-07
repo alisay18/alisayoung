@@ -8,7 +8,7 @@
 
 body {
     font-family: 'Diatype', sans-serif;
-    font-size: 20px;
+    font-size: 0.9rem;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -56,6 +56,9 @@ section {
 
 footer {
     text-align: left;
+    margin-top: auto; /* Pushes footer to bottom */
+    width: 100%;
+    padding: 10px;
     color: #fff;
 }
 
@@ -122,6 +125,19 @@ footer {
       }
       
     }
+
+    .container {
+        display: flex;
+        justify-content: flex-start; /* Align columns to the left */
+        text-align: left;
+      }
+
+    .column {
+        flex: 1;
+        padding: 60px; /* Top, Right, Bottom, Left padding */
+        font-size: 0.9rem; /* 14.4px assuming browser default 16px */
+        line-height: 1.5;
+      }
 
     body {
         text-align: center;
