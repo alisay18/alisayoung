@@ -1,8 +1,13 @@
+@font-face {
+    font-family: 'Diatype';
+    src: url('/Users/alisayoung/downloads/abc-diatype-regular.otf') format('woff2'),
+         url('/Users/alisayoung/downloads/abc-diatype-regular.otf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 body {
-    @font-face {
-        font-family: "Diatype";
-        src: url(https://abcdinamo.com/typefaces/diatype) format("truetype");
-    }font-family: Diatype, sans-serif;
+    font-family: 'Diatype', sans-serif;
     font-size: 20px;
     line-height: 1.6;
     margin: 0;
