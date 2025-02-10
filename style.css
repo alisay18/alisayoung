@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Diatype';
-    src: url('/Users/alisayoung/downloads/abc-diatype-regular.otf') format('woff2'),
-         url('/Users/alisayoung/downloads/abc-diatype-regular.otf') format('woff');
+    src: url('/Users/alisayoung/downloads/abc-diatype-regular.otf')
+format('opentype;')
     font-weight: normal;
     font-style: normal;
   }
@@ -14,6 +14,17 @@ body {
     padding: 0;
     color: #ffffff;
     background-image: url('https://i.pinimg.com/1200x/7a/32/83/7a32830bdcf1dc41e5245d6a944406a2.jpg');
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    }
+
+.main-content {
+        flex: 1;
+}
 
 header h1{
     color: #fff;
@@ -52,14 +63,6 @@ section {
     padding: 20px;
     border-bottom: 1px solid #ccc;
     background-color: black;
-}
-
-footer {
-    text-align: left;
-    margin-top: auto; /* Pushes footer to bottom */
-    width: 100%;
-    padding: 10px;
-    color: #fff;
 }
 
 .page {
@@ -130,13 +133,24 @@ footer {
         display: flex;
         justify-content: flex-start; /* Align columns to the left */
         text-align: left;
+        gap: 20px; /* Space between columns */
+        width: 100%; /* Full container width */
+        max-width: 1400px; /* Increase this value to make columns wider */
+        margin: 0 auto; /* Center container */
       }
 
     .column {
         flex: 1;
-        padding: 60px; /* Top, Right, Bottom, Left padding */
+        padding: 60px;
+        padding-top: 0px; /* Adjust this value as needed */
+        padding-left: 0px;
+        min-width: 400px; /* Minimum column width */
         font-size: 0.9rem; /* 14.4px assuming browser default 16px */
         line-height: 1.5;
+      }
+
+    .column:nth-child(2) {
+        width: 40%; /* Wider middle column */
       }
 
     body {
@@ -149,4 +163,13 @@ footer {
     
     .caption {
         margin-top: 0;
+    }
+
+footer {
+        text-align: left;
+        margin-top: auto; /* Pushes footer to bottom */
+        width: 100%;
+        padding: 60px;
+        color: #fff;
+        max-width: none;
     }
