@@ -13,13 +13,11 @@ body {
     margin: 0;
     padding: 0;
     color: #ffffff;
-    background-image: url('https://i.pinimg.com/1200x/7a/32/83/7a32830bdcf1dc41e5245d6a944406a2.jpg');
+    background-color: #000000;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+    text-align: left;
     }
 
 .main-content {
@@ -140,17 +138,14 @@ section {
 
     .container {
         display: flex;
-        justify-content: flex-start; /* Align columns to the left */
+        flex-direction: row;
+        justify-content: flex-start;
         text-align: left;
-        gap: 20px; /* Space between columns */
-        width: 100%; /* Full container width */
-        max-width: 1400px; /* Increase this value to make columns wider */
-        margin: 0 auto; /* Center container */
       }
 
     .column {
-        flex: 1;
-        padding: 60px;
+        flex: 1 1 300px;
+        padding: 60px 0;
         padding-top: 0px; /* Adjust this value as needed */
         padding-left: 0px;
         min-width: 300px; /* Minimum column width */
@@ -158,9 +153,6 @@ section {
         line-height: 1.5;
       }
     
-    body {
-        text-align: center;
-    }
     
     h1 {
         margin-bottom: 10px;
@@ -172,9 +164,6 @@ section {
 
 footer {
         text-align: left;
-        margin-top: auto; /* Pushes footer to bottom */
-        width: 100%;
-        padding: 20px;
+        padding: 0px;
         color: #fff;
-        max-width: none;
     }
