@@ -2,7 +2,7 @@
     font-family: 'Diatype';
     src: url('/Users/alisayoung/downloads/abc-diatype-regular.otf')
 format('opentype;')
-    font-weight: normal;
+    font-weight: normal; 
     font-style: normal;
     }
 
@@ -19,9 +19,9 @@ body {
     min-height: 100vh;
     text-align: left;
     }
-
+    
 .main-content {
-        flex: 1;
+    flex: 1;
 }
 
 header h1{
@@ -55,20 +55,6 @@ nav ul li {
 nav ul li a {
     color: #fff;
     text-decoration: none;
-}
-
-section {
-    padding: 20px;
-    border-bottom: 1px solid #ccc;
-    background-color: black;
-}
-
-.page {
-	min-height: var(--viewport-height);
-}
-
-.page-content {
-	align-items: flex-start;
 }
 
 .hero {
@@ -136,29 +122,30 @@ section {
       
     }
 
-    .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        text-align: left;
-      }
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    flex-wrap: wrap;
+    }
 
-    .column {
-        flex: 1 1 300px;
-        padding: 60px 0;
-        padding-top: 0px; /* Adjust this value as needed */
-        padding-left: 0px;
-        min-width: 300px; /* Minimum column width */
-        font-size: 0.9rem; /* 14.4px assuming browser default 16px */
-        line-height: 1.5;
-      }
+.column {
+    flex: 1;
+    padding: 60px 0;
+    padding-top: 0px; /* Adjust this value as needed */
+    padding-left: 0px;
+    min-width: 300px; /* Minimum column width */
+    font-size: 0.9rem; /* 14.4px assuming browser default 16px */
+    line-height: 1.5;
+    }
     
     
-    h1 {
+h1 {
         margin-bottom: 10px;
     }
     
-    .caption {
+.caption {
         margin-top: 0;
     }
 
