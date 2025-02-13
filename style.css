@@ -4,7 +4,7 @@
 format('opentype;')
     font-weight: normal;
     font-style: normal;
-  }
+    }
 
 body {
     font-family: 'Diatype', sans-serif;
@@ -144,7 +144,7 @@ section {
         padding: 60px;
         padding-top: 0px; /* Adjust this value as needed */
         padding-left: 0px;
-        min-width: 400px; /* Minimum column width */
+        min-width: 300px; /* Minimum column width */
         font-size: 0.9rem; /* 14.4px assuming browser default 16px */
         line-height: 1.5;
       }
