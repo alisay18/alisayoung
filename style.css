@@ -94,6 +94,15 @@ section {
         animation: gradientWave 5s ease infinite;
       }
 
+      @keyframes gradientWave {
+        0% {
+          background-position: 100% 0%;
+        }
+        100% {
+          background-position: -100% 0%;
+        }
+      }
+
       h1 {
         position: absolute;
         top: 50%;
@@ -148,11 +157,7 @@ section {
         font-size: 0.9rem; /* 14.4px assuming browser default 16px */
         line-height: 1.5;
       }
-
-    .column:nth-child(2) {
-        width: 40%; /* Wider middle column */
-      }
-
+    
     body {
         text-align: center;
     }
@@ -169,7 +174,7 @@ footer {
         text-align: left;
         margin-top: auto; /* Pushes footer to bottom */
         width: 100%;
-        padding: 60px;
+        padding: 20px;
         color: #fff;
         max-width: none;
     }
