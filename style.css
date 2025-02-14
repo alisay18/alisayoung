@@ -156,16 +156,6 @@ h3 {
   /* 14.4px assuming browser default 16px */
   line-height: 1.5;
 }
-
-=======
-    flex: 1;
-    padding: 50px;
-    padding-top: 0px; /* Adjust this value as needed */
-    padding-left: 10px;
-    min-width: 300px; /* Minimum column width */
-    font-size: 0.9rem; /* 14.4px assuming browser default 16px */
-    line-height: 1.5;
-    }
     
 h1 {
   margin-bottom: 10px;
@@ -194,7 +184,7 @@ footer {
 =======
     text-align: left;
     padding: 10px;
-    color: #fff;
+    color: #ffffff;
     margin-top: auto; /* Pushes footer to bottom */
     width: 100%;
     max-width: none;
