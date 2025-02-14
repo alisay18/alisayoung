@@ -130,7 +130,7 @@ h3 {
   justify-content: flex-start;
   text-align: left;
   flex-wrap: wrap;
-  min-height: 100vh;
+  min-height: 110vh;
 }
 
 .column {
