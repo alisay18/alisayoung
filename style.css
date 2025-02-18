@@ -100,7 +100,7 @@ h1 {
 
 h2 {
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: 50%;
   transform: translate(-50%, 125%);
   color: white;
@@ -156,6 +156,13 @@ h3 {
   /* 14.4px assuming browser default 16px */
   line-height: 1.5;
 }
+
+.middle-column img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 20px auto 0;
+  }  
     
 h1 {
   margin-bottom: 10px;
