@@ -162,7 +162,7 @@ h3 {
     display: block;
     max-width: 100%;
     height: auto;
-    margin: 30px auto 0;
+    max-height: 700px;
   }  
     
 h1 {
