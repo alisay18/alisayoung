@@ -190,3 +190,20 @@ footer {
     flex-direction: column;
   }
 }
+
+a {
+  color: white; /* Sets link color to white */
+  text-decoration: none; /* Removes underline */
+}
+
+a:visited {
+  color: white; /* Keeps link color white after visiting */
+}
+
+a:hover {
+  color: white; /* Keeps link color white on hover */
+}
+
+a:active {
+  color: white; /* Keeps link color white when active */
+}
