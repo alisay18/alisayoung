@@ -193,17 +193,20 @@ footer {
 
 a {
   color: white; !important; /* Sets link color to white */
-  text-decoration: none; !important; /* Removes underline */
+  text-decoration: underline !important;
 }
 
 a:visited {
   color: white; !important; /* Keeps link color white after visiting */
+  text-decoration: underline !important;
 }
 
 a:hover {
   color: white; !important; /* Keeps link color white on hover */
+  text-decoration: underline !important;
 }
 
 a:active {
   color: white; !important; /* Keeps link color white when active */
+  text-decoration: underline !important;
 }
