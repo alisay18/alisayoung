@@ -192,18 +192,18 @@ footer {
 }
 
 a {
-  color: white; /* Sets link color to white */
-  text-decoration: none; /* Removes underline */
+  color: white; !important; /* Sets link color to white */
+  text-decoration: none; !important; /* Removes underline */
 }
 
 a:visited {
-  color: white; /* Keeps link color white after visiting */
+  color: white; !important; /* Keeps link color white after visiting */
 }
 
 a:hover {
-  color: white; /* Keeps link color white on hover */
+  color: white; !important; /* Keeps link color white on hover */
 }
 
 a:active {
-  color: white; /* Keeps link color white when active */
+  color: white; !important; /* Keeps link color white when active */
 }
