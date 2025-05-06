@@ -210,3 +210,18 @@ a:active {
   color: white; !important; /* Keeps link color white when active */
   text-decoration: underline !important;
 }
+
+/* Prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* Mobile layout (under 768px) */
+@media (max-width: 767px) {
+  .container {
+    display: block !important; /* Switch to vertical stack */
+  }
+  .column {
+    width: 100% !important; /* Full-width columns */
+    overflow: visible !important; /* Disable individual scrollbars */
+    height: auto; /* Allow natural content height */
+  }
+}
