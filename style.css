@@ -56,6 +56,23 @@ nav ul li a {
   text-decoration: none;
 }
 
+/* Make the header fixed at the top */
+header.hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white; /* or your preferred background */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 20px 0;
+}
+
+/* Add padding to the top of the main content so it doesn't hide behind the header */
+main.container {
+  padding-top: 90px; /* Adjust to match header height */
+}
+
 .hero {
   width: auto;
   margin: 0;
