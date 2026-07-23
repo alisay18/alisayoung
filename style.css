@@ -6,14 +6,14 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   font-family: 'Diatype', sans-serif;
   font-size: 0.9rem;
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  color: #ffffff;
-  background-color: #000000;
+  color: #000000;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -24,7 +24,7 @@ body {
 }
 
 header h1 {
-  color: #fff;
+  color: #000;
   padding: 10px 20px;
 }
 
@@ -33,7 +33,7 @@ header h1 {
 }
 
 header h2 {
-  color: #fff;
+  color: #000;
   padding: 10px 20px;
 }
 
@@ -52,93 +52,59 @@ nav ul li {
 }
 
 nav ul li a {
-  color: #fff;
+  color: #000;
   text-decoration: none;
 }
 
-/* Make the header fixed at the top */
+/* Header takes up the full page; you scroll past it to reach the description */
 header.hero {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  z-index: 1000;
-  background: white; /* or your preferred background */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  padding: 20px 0;
-}
-
-/* Add padding to the top of the main content so it doesn't hide behind the header */
-main.container {
-  padding-top: 90px; /* Adjust to match header height */
+  overflow: hidden;
+  background: #ffffff;
 }
 
 .hero {
   width: auto;
   margin: 0;
-  padding: 0;
-  height: auto;
-  background: repeating-linear-gradient(45deg,
-      #282525 0%,
-      #2b2b2b 25%,
-      #565656 50%,
-      #808080 75%,
-      #c0c0c0 100%);
+  padding: 0 60px;
+  box-sizing: border-box;
   min-height: 100vh;
-  background: -webkit-linear-gradient(45deg, #000000 0%, #2b2b2b 25%, #565656 50%, #808080 75%, #c0c0c0 100%);
-  background: -moz-linear-gradient(45deg, #000000 0%, #2b2b2b 25%, #565656 50%, #808080 75%, #c0c0c0 100%);
-  background: linear-gradient(45deg, #000000 0%, #2b2b2b 25%, #565656 50%, #808080 75%, #c0c0c0 100%);
-
-  background-size: 400% 400%;
-  animation: gradientWave 5s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-@keyframes gradientWave {
-  0% {
-    background-position: 100% 0%;
-  }
-
-  100% {
-    background-position: -100% 0%;
-  }
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 h1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
+  position: relative;
+  color: #000;
+  text-align: left;
   font-size: 3rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin: 0;
+  z-index: 1;
 }
 
 h2 {
-  position: absolute;
-  top: 46%;
-  left: 50%;
-  transform: translate(-50%, 125%);
-  color: white;
-  text-align: center;
+  position: relative;
+  color: #000;
+  text-align: left;
   font-size: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin: 0;
+  z-index: 1;
 }
 
 h3 {
   margin-top: 0px;
-}
-
-@keyframes gradientWave {
-  0% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 .container {
@@ -193,7 +159,7 @@ h1 {
 footer {
   text-align: left;
   padding: 10px;
-  color: #fff;
+  color: #000;
   margin:0px;
   flex-shrink: 0;
 }
@@ -209,22 +175,22 @@ footer {
 }
 
 a {
-  color: white; !important; /* Sets link color to white */
+  color: #000 !important; /* Sets link color to black */
   text-decoration: underline !important;
 }
 
 a:visited {
-  color: white; !important; /* Keeps link color white after visiting */
+  color: #000 !important; /* Keeps link color black after visiting */
   text-decoration: underline !important;
 }
 
 a:hover {
-  color: white; !important; /* Keeps link color white on hover */
+  color: #000 !important; /* Keeps link color black on hover */
   text-decoration: underline !important;
 }
 
 a:active {
-  color: white; !important; /* Keeps link color white when active */
+  color: #000 !important; /* Keeps link color black when active */
   text-decoration: underline !important;
 }
 
