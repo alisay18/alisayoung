@@ -4,6 +4,11 @@
   font-style: normal;
 }
 
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
 html,
 body {
   min-height: 100%;
@@ -12,8 +17,8 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  color: #000000;
-  background-color: #ffffff;
+  color: var(--text-color);
+  background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -24,7 +29,7 @@ body {
 }
 
 header h1 {
-  color: #000;
+  color: var(--text-color);
   padding: 10px 20px;
 }
 
@@ -33,7 +38,7 @@ header h1 {
 }
 
 header h2 {
-  color: #000;
+  color: var(--text-color);
   padding: 10px 20px;
 }
 
@@ -52,7 +57,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: #000;
+  color: var(--text-color);
   text-decoration: none;
 }
 
@@ -61,7 +66,7 @@ header.hero {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--bg-color);
 }
 
 .hero {
@@ -87,7 +92,7 @@ header.hero {
 
 h1 {
   position: relative;
-  color: #000;
+  color: var(--text-color);
   text-align: left;
   font-size: 3rem;
   margin: 0;
@@ -96,7 +101,7 @@ h1 {
 
 h2 {
   position: relative;
-  color: #000;
+  color: var(--text-color);
   text-align: left;
   font-size: 1rem;
   margin: 0;
@@ -159,7 +164,7 @@ h1 {
 footer {
   text-align: left;
   padding: 10px;
-  color: #000;
+  color: var(--text-color);
   margin:0px;
   flex-shrink: 0;
 }
@@ -175,22 +180,22 @@ footer {
 }
 
 a {
-  color: #000 !important; /* Sets link color to black */
+  color: var(--text-color) !important; /* Links track the scroll-driven text color */
   text-decoration: underline !important;
 }
 
 a:visited {
-  color: #000 !important; /* Keeps link color black after visiting */
+  color: var(--text-color) !important;
   text-decoration: underline !important;
 }
 
 a:hover {
-  color: #000 !important; /* Keeps link color black on hover */
+  color: var(--text-color) !important;
   text-decoration: underline !important;
 }
 
 a:active {
-  color: #000 !important; /* Keeps link color black when active */
+  color: var(--text-color) !important;
   text-decoration: underline !important;
 }
 
