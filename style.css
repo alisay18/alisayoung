@@ -137,10 +137,16 @@ h3 {
   min-height: 110vh;
 }
 
+.icon-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
 .icon-link {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 12px;
   font-size: 1.3rem;
   line-height: 1;
 }
