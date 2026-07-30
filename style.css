@@ -149,6 +149,7 @@ h3 {
   align-items: center;
   font-size: 1.3rem;
   line-height: 1;
+  text-decoration: none !important;
 }
 
 .icon-link svg {
