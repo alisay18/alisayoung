@@ -135,6 +135,7 @@ h3 {
   text-align: left;
   flex-wrap: wrap;
   min-height: 110vh;
+  margin-top: 70vh;
 }
 
 .icon-row {
