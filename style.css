@@ -22,6 +22,24 @@ body {
   flex: 1 0 auto;
 }
 
+/* Slide page transitions (see script.js) */
+#page-root {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  transition: transform 380ms cubic-bezier(0.65, 0, 0.35, 1);
+  transform: translateX(0);
+}
+
+#page-root.slide-out {
+  transform: translateX(-100%);
+}
+
+#page-root.slide-in-start {
+  transition: none;
+  transform: translateX(100%);
+}
+
 header h1 {
   color: var(--text-color);
   padding: 10px 20px;
@@ -134,7 +152,6 @@ h3 {
   justify-content: flex-start;
   text-align: left;
   flex-wrap: wrap;
-  min-height: 110vh;
   margin-top: 50vh;
 }
 
