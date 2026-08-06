@@ -163,14 +163,6 @@ h3 {
   margin-top: 50vh;
 }
 
-/* Projects/Gallery are short "coming soon" panels — a smaller gap and a
-   minimum height give the page enough scroll room to actually bring the
-   content up near the top of the viewport (see script.js swapContent). */
-.container.sub-page {
-  margin-top: 20vh;
-  min-height: 100vh;
-}
-
 .icon-row {
   display: flex;
   flex-direction: row;

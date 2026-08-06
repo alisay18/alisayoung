@@ -88,21 +88,7 @@
     return href === 'index.html' || href === './' || href === '/';
   }
 
-  // Absolute document-coordinate top of an element, independent of the
-  // current scroll position. Reading getBoundingClientRect().top plus
-  // window.scrollY right after a DOM mutation can be stale, since the
-  // browser may not have re-clamped window.scrollY to the new (shorter)
-  // document yet — walking offsetParent avoids depending on scroll state.
-  function documentTop(el) {
-    var top = 0;
-    while (el) {
-      top += el.offsetTop || 0;
-      el = el.offsetParent;
-    }
-    return top;
-  }
-
-  function swapContent(html, href, push, toHome) {
+  function swapContent(html, href, push) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, 'text/html');
     var newMain = doc.querySelector('main.container');
@@ -110,29 +96,10 @@
     document.title = doc.title;
     if (push) history.pushState({ href: href }, doc.title, href);
     bindLinks(root);
-
-    if (toHome) {
-      // Recompute the gradient for the new content height without resetting
-      // scroll position — staying wherever the reader currently is instead
-      // of jumping back to the top.
-      if (window.__updateScrollTheme) window.__updateScrollTheme();
-    } else {
-      // Projects/Gallery are short "coming soon" panels — bring the content
-      // up to a comfortable, top-aligned position (matching where the bio
-      // text sits on the home page) instead of leaving it wherever the
-      // previous, taller page's scroll position happens to land. Measuring
-      // the <main> itself (not the wrapper) matters here: its margin-top
-      // collapses through the plain wrapper div, so the wrapper's own
-      // offset doesn't include it.
-      var newMainEl = root.querySelector('main.container');
-      var mainTop = newMainEl ? documentTop(newMainEl) : documentTop(root);
-      window.scrollTo(0, Math.max(0, mainTop - 40));
-      // Recompute from the new scroll position rather than forcing the
-      // colors directly — scrollTo triggers our own scroll listener, which
-      // would immediately overwrite a forced value anyway. Landing close to
-      // the bottom of these short pages naturally computes near-black.
-      if (window.__updateScrollTheme) window.__updateScrollTheme();
-    }
+    // Only the content swaps — scroll position is never touched, so the
+    // reader stays exactly where they are. The gradient just recomputes
+    // for the new content height at that same position.
+    if (window.__updateScrollTheme) window.__updateScrollTheme();
   }
 
   function navigateTo(href, push) {
@@ -155,7 +122,7 @@
       fetch(href)
         .then(function (res) { return res.text(); })
         .then(function (html) {
-          swapContent(html, href, push, toHome);
+          swapContent(html, href, push);
           pageRoot.classList.remove(outClass);
           pageRoot.classList.add(inClass);
           void pageRoot.offsetWidth; // force reflow before animating in
