@@ -70,37 +70,83 @@
     navigateTo(href, true);
   }
 
-  function getPageRoot() {
+  // Only the <main> content area swaps and slides — the hero header (always
+  // "ALISA YOUNG") and footer stay put, so it never looks like you've left
+  // the page, and scrolling up always finds the same hero, not the fetched
+  // page's own heading.
+  function getContentRoot() {
     if (root) return root;
+    var main = document.querySelector('main.container');
     root = document.createElement('div');
-    root.id = 'page-root';
-    while (document.body.firstChild) {
-      root.appendChild(document.body.firstChild);
-    }
-    document.body.appendChild(root);
+    root.id = 'content-root';
+    main.parentNode.insertBefore(root, main);
+    root.appendChild(main);
     return root;
   }
 
-  function swapContent(html, href, push) {
+  function isHomeHref(href) {
+    return href === 'index.html' || href === './' || href === '/';
+  }
+
+  // Absolute document-coordinate top of an element, independent of the
+  // current scroll position. Reading getBoundingClientRect().top plus
+  // window.scrollY right after a DOM mutation can be stale, since the
+  // browser may not have re-clamped window.scrollY to the new (shorter)
+  // document yet — walking offsetParent avoids depending on scroll state.
+  function documentTop(el) {
+    var top = 0;
+    while (el) {
+      top += el.offsetTop || 0;
+      el = el.offsetParent;
+    }
+    return top;
+  }
+
+  function swapContent(html, href, push, toHome) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, 'text/html');
-    root.innerHTML = doc.body.innerHTML;
+    var newMain = doc.querySelector('main.container');
+    root.innerHTML = newMain ? newMain.outerHTML : '';
     document.title = doc.title;
     if (push) history.pushState({ href: href }, doc.title, href);
     bindLinks(root);
-    if (window.__updateScrollTheme) window.__updateScrollTheme();
-    window.scrollTo(0, 0);
+
+    if (toHome) {
+      // Recompute the gradient for the new content height without resetting
+      // scroll position — staying wherever the reader currently is instead
+      // of jumping back to the top.
+      if (window.__updateScrollTheme) window.__updateScrollTheme();
+    } else {
+      // Projects/Gallery are short "coming soon" panels — bring the content
+      // up to a comfortable, top-aligned position (matching where the bio
+      // text sits on the home page) instead of leaving it wherever the
+      // previous, taller page's scroll position happens to land. Measuring
+      // the <main> itself (not the wrapper) matters here: its margin-top
+      // collapses through the plain wrapper div, so the wrapper's own
+      // offset doesn't include it.
+      var newMainEl = root.querySelector('main.container');
+      var mainTop = newMainEl ? documentTop(newMainEl) : documentTop(root);
+      window.scrollTo(0, Math.max(0, mainTop - 40));
+      // Recompute from the new scroll position rather than forcing the
+      // colors directly — scrollTo triggers our own scroll listener, which
+      // would immediately overwrite a forced value anyway. Landing close to
+      // the bottom of these short pages naturally computes near-black.
+      if (window.__updateScrollTheme) window.__updateScrollTheme();
+    }
   }
 
   function navigateTo(href, push) {
-    var pageRoot = getPageRoot();
+    var toHome = isHomeHref(href);
+    var pageRoot = getContentRoot();
+    var outClass = toHome ? 'slide-out-reverse' : 'slide-out';
+    var inClass = toHome ? 'slide-in-start-reverse' : 'slide-in-start';
 
     // Force a reflow before adding the class so the browser registers the
     // element's current (non-slid) state as the transition's starting
     // point, rather than collapsing creation + class change into one
     // instant style update with nothing to animate from.
     void pageRoot.offsetWidth;
-    pageRoot.classList.add('slide-out');
+    pageRoot.classList.add(outClass);
 
     // A fixed timeout (rather than waiting on 'transitionend') keeps this
     // working even if the transition doesn't actually run — e.g. a user
@@ -109,11 +155,11 @@
       fetch(href)
         .then(function (res) { return res.text(); })
         .then(function (html) {
-          swapContent(html, href, push);
-          pageRoot.classList.remove('slide-out');
-          pageRoot.classList.add('slide-in-start');
+          swapContent(html, href, push, toHome);
+          pageRoot.classList.remove(outClass);
+          pageRoot.classList.add(inClass);
           void pageRoot.offsetWidth; // force reflow before animating in
-          pageRoot.classList.remove('slide-in-start');
+          pageRoot.classList.remove(inClass);
         })
         .catch(function () {
           window.location.href = href; // fall back to a normal navigation

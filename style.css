@@ -22,22 +22,30 @@ body {
   flex: 1 0 auto;
 }
 
-/* Slide page transitions (see script.js) */
-#page-root {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
+/* Slide content transitions (see script.js) — only the <main> content area
+   slides; the hero header and footer stay put. */
+#content-root {
   transition: transform 380ms cubic-bezier(0.65, 0, 0.35, 1);
   transform: translateX(0);
 }
 
-#page-root.slide-out {
+#content-root.slide-out {
   transform: translateX(-100%);
 }
 
-#page-root.slide-in-start {
+#content-root.slide-in-start {
   transition: none;
   transform: translateX(100%);
+}
+
+/* Reversed direction for going back home: exits right, enters from left. */
+#content-root.slide-out-reverse {
+  transform: translateX(100%);
+}
+
+#content-root.slide-in-start-reverse {
+  transition: none;
+  transform: translateX(-100%);
 }
 
 header h1 {
@@ -155,6 +163,14 @@ h3 {
   margin-top: 50vh;
 }
 
+/* Projects/Gallery are short "coming soon" panels — a smaller gap and a
+   minimum height give the page enough scroll room to actually bring the
+   content up near the top of the viewport (see script.js swapContent). */
+.container.sub-page {
+  margin-top: 20vh;
+  min-height: 100vh;
+}
+
 .icon-row {
   display: flex;
   flex-direction: row;
@@ -203,8 +219,8 @@ h3 {
     display: block;
     max-width: 100%;
     height: auto;
-    max-height: 700px;
-  }  
+    max-height: 500px;
+  }
     
 h1 {
   margin-bottom: 10px;
