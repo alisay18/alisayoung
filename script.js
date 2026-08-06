@@ -67,7 +67,7 @@
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     var href = e.currentTarget.getAttribute('href');
     e.preventDefault();
-    navigateTo(href, true);
+    navigateTo(href);
   }
 
   // Only the <main> content area swaps and slides — the hero header (always
@@ -88,13 +88,17 @@
     return href === 'index.html' || href === './' || href === '/';
   }
 
-  function swapContent(html, href, push) {
+  function swapContent(html) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, 'text/html');
     var newMain = doc.querySelector('main.container');
     root.innerHTML = newMain ? newMain.outerHTML : '';
-    document.title = doc.title;
-    if (push) history.pushState({ href: href }, doc.title, href);
+    // The URL and browser history are deliberately left alone — this is a
+    // content swap within a single page, not a real navigation. Changing
+    // the URL would mean a later refresh (or reopening a bookmark/tab) hits
+    // the real, separate projects.html/gallery.html file directly, which
+    // has its own genuine header — showing "PROJECTS" where "ALISA YOUNG"
+    // was expected.
     bindLinks(root);
     // Only the content swaps — scroll position is never touched, so the
     // reader stays exactly where they are. The gradient just recomputes
@@ -102,7 +106,7 @@
     if (window.__updateScrollTheme) window.__updateScrollTheme();
   }
 
-  function navigateTo(href, push) {
+  function navigateTo(href) {
     var toHome = isHomeHref(href);
     var pageRoot = getContentRoot();
     var outClass = toHome ? 'slide-out-reverse' : 'slide-out';
@@ -122,7 +126,7 @@
       fetch(href)
         .then(function (res) { return res.text(); })
         .then(function (html) {
-          swapContent(html, href, push);
+          swapContent(html);
           pageRoot.classList.remove(outClass);
           pageRoot.classList.add(inClass);
           void pageRoot.offsetWidth; // force reflow before animating in
@@ -133,11 +137,6 @@
         });
     }, DURATION);
   }
-
-  window.addEventListener('popstate', function () {
-    var href = location.pathname.split('/').pop() || 'index.html';
-    navigateTo(href, false);
-  });
 
   function init() {
     bindLinks(document.body);
