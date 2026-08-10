@@ -89,6 +89,16 @@
   }
 
   function swapContent(html) {
+    // Capture how far down the *gradient* the reader currently is (0 =
+    // top/white, 1 = bottom/black) before the swap changes the document's
+    // height. Preserving this fraction — not the raw scrollY pixel value —
+    // is what keeps a reader who's in the black area still in the black
+    // area afterward, even though Projects/Gallery's content is much
+    // shorter than the home page's, so the same pixel offset would
+    // otherwise land somewhere completely different (and much lighter).
+    var scrollableBefore = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = scrollableBefore > 0 ? window.scrollY / scrollableBefore : 0;
+
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, 'text/html');
     var newMain = doc.querySelector('main.container');
@@ -100,9 +110,9 @@
     // has its own genuine header — showing "PROJECTS" where "ALISA YOUNG"
     // was expected.
     bindLinks(root);
-    // Only the content swaps — scroll position is never touched, so the
-    // reader stays exactly where they are. The gradient just recomputes
-    // for the new content height at that same position.
+
+    var scrollableAfter = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo(0, Math.round(progress * scrollableAfter));
     if (window.__updateScrollTheme) window.__updateScrollTheme();
   }
 

@@ -163,6 +163,16 @@ h3 {
   margin-top: 50vh;
 }
 
+/* Projects/Gallery are much shorter than the home page's content. Without
+   extra height, preserving the reader's position in the gradient (see
+   script.js swapContent) can land the viewport past this short content
+   entirely, squeezing "BACK HOME" against the bottom edge. This gives it
+   room to sit comfortably wherever the preserved position lands, while
+   keeping the same margin-top as the home page's body text above. */
+.container.sub-page {
+  min-height: 70vh;
+}
+
 .icon-row {
   display: flex;
   flex-direction: row;
