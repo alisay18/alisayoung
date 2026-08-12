@@ -96,10 +96,6 @@
     return root;
   }
 
-  function isHomeHref(href) {
-    return href === 'index.html' || href === './' || href === '/';
-  }
-
   function swapContent(html) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(html, 'text/html');
@@ -124,10 +120,9 @@
   }
 
   function navigateTo(href) {
-    var toHome = isHomeHref(href);
     var pageRoot = getContentRoot();
-    var outClass = toHome ? 'slide-out-reverse' : 'slide-out';
-    var inClass = toHome ? 'slide-in-start-reverse' : 'slide-in-start';
+    var outClass = 'slide-out';
+    var inClass = 'slide-in-start';
 
     // Force a reflow before adding the class so the browser registers the
     // element's current (non-slid) state as the transition's starting
