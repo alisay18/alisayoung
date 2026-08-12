@@ -97,7 +97,17 @@ header.hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.hero-photo {
+  position: relative;
+  z-index: 1;
+  max-height: 82vh;
+  width: auto;
+  max-width: 40%;
+  display: block;
 }
 
 .hero-video {
@@ -282,5 +292,17 @@ html, body { overflow-x: hidden; }
     width: 100% !important; /* Full-width columns */
     overflow: visible !important; /* Disable individual scrollbars */
     height: auto; /* Allow natural content height */
+  }
+
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px 30px;
+    gap: 24px;
+  }
+
+  .hero-photo {
+    max-width: 92%;
+    max-height: 60vh;
   }
 }
