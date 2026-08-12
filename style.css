@@ -104,9 +104,9 @@ header.hero {
 .hero-photo {
   position: relative;
   z-index: 1;
-  max-height: 82vh;
+  max-height: min(50vh, 420px);
   width: auto;
-  max-width: 40%;
+  max-width: 24%;
   display: block;
 }
 
@@ -181,6 +181,68 @@ h3 {
    AND keeps the content visually aligned with where it was before. */
 .container.sub-page {
   min-height: 714px;
+}
+
+/* Photoshoot filmstrip: a horizontal strip of images that auto-scrolls
+   when the mouse sits near either edge, and zooms an image on click. */
+.filmstrip-wrap {
+  flex: 2.5 1 auto;
+  position: relative;
+  overflow: hidden;
+  /* Explicit (not percentage/stretch-derived) height so the height:100%
+     chain down to .filmstrip and its images has something definite to
+     resolve against — otherwise images fall back to their full natural
+     size instead of being constrained to fit. */
+  height: 714px;
+}
+
+.filmstrip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.filmstrip::-webkit-scrollbar {
+  display: none;
+}
+
+.filmstrip img {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  flex-shrink: 0;
+  cursor: zoom-in;
+  display: block;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  cursor: zoom-out;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
 }
 
 .icon-row {
@@ -304,5 +366,10 @@ html, body { overflow-x: hidden; }
   .hero-photo {
     max-width: 92%;
     max-height: 60vh;
+  }
+
+  .filmstrip-wrap {
+    height: 60vh;
+    margin-top: 20px;
   }
 }

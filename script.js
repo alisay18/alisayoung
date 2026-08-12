@@ -106,6 +106,7 @@
     // aligned with where it was and lands on the same gradient darkness —
     // no manual repositioning needed.
     if (window.__updateScrollTheme) window.__updateScrollTheme();
+    if (window.__initFilmstrip) window.__initFilmstrip(root);
   }
 
   function navigateTo(href) {
@@ -148,6 +149,90 @@
   // typically already fired by the time it runs — waiting for that event
   // here would mean the listener never fires. Bind immediately in that
   // case, and only wait for the event if the script somehow runs early.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// --- Photoshoot filmstrip: edge auto-scroll + click-to-zoom lightbox ---
+(function () {
+  var EDGE_ZONE = 160; // px from each edge that triggers auto-scroll
+  var MAX_SPEED = 14; // px per animation frame at the very edge
+  var lightboxEl = null;
+
+  function setupWrap(wrap) {
+    if (wrap.__filmstripReady) return; // avoid double-binding on re-init
+    wrap.__filmstripReady = true;
+
+    var strip = wrap.querySelector('.filmstrip');
+    if (!strip) return;
+    var speed = 0;
+
+    function tick() {
+      if (speed !== 0) strip.scrollLeft += speed;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    wrap.addEventListener('mousemove', function (e) {
+      var rect = wrap.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      if (x < EDGE_ZONE) {
+        speed = -MAX_SPEED * ((EDGE_ZONE - x) / EDGE_ZONE);
+      } else if (x > rect.width - EDGE_ZONE) {
+        speed = MAX_SPEED * ((x - (rect.width - EDGE_ZONE)) / EDGE_ZONE);
+      } else {
+        speed = 0;
+      }
+    });
+    wrap.addEventListener('mouseleave', function () {
+      speed = 0;
+    });
+
+    var images = strip.querySelectorAll('img');
+    for (var i = 0; i < images.length; i++) {
+      images[i].addEventListener('click', (function (img) {
+        return function () { openLightbox(img.src, img.alt); };
+      })(images[i]));
+    }
+  }
+
+  function getLightbox() {
+    if (lightboxEl) return lightboxEl;
+    lightboxEl = document.createElement('div');
+    lightboxEl.className = 'lightbox';
+    var img = document.createElement('img');
+    lightboxEl.appendChild(img);
+    lightboxEl.addEventListener('click', function () {
+      lightboxEl.classList.remove('active');
+    });
+    document.body.appendChild(lightboxEl);
+    return lightboxEl;
+  }
+
+  function openLightbox(src, alt) {
+    var lb = getLightbox();
+    var img = lb.querySelector('img');
+    img.src = src;
+    img.alt = alt || '';
+    lb.classList.add('active');
+  }
+
+  function initFilmstrip(container) {
+    var wraps = container.querySelectorAll('.filmstrip-wrap');
+    for (var i = 0; i < wraps.length; i++) {
+      setupWrap(wraps[i]);
+    }
+  }
+
+  window.__initFilmstrip = initFilmstrip;
+
+  function init() {
+    initFilmstrip(document.body);
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
