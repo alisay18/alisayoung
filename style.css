@@ -1,5 +1,9 @@
 :root {
-  --bg-color: #ffffff;
+  /* Two-stop sheen instead of a flat fill, so the background reads as
+     brushed metal/silver rather than a plain solid color. script.js
+     updates both stops together as you scroll. */
+  --bg-a: #ffffff;
+  --bg-b: #f3f3f5;
   --text-color: #000000;
 }
 
@@ -12,7 +16,7 @@ body {
   margin: 0;
   padding: 0;
   color: var(--text-color);
-  background-color: var(--bg-color);
+  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -86,7 +90,7 @@ header.hero {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: var(--bg-color);
+  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
 }
 
 .hero {
@@ -108,6 +112,18 @@ header.hero {
   width: auto;
   max-width: 24%;
   display: block;
+}
+
+/* Parallax: JS updates --parallax-y on scroll; CSS owns the actual
+   transform so hover states (which add a scale) can combine with it
+   instead of a JS-set inline transform clobbering the :hover rule. */
+.parallax {
+  transform: translateY(var(--parallax-y, 0px));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-photo:hover {
+  transform: translateY(var(--parallax-y, 0px)) scale(1.02);
 }
 
 .hero-video {
@@ -218,7 +234,29 @@ h3 {
   flex-shrink: 0;
   cursor: zoom-in;
   display: block;
+  /* .filmstrip img is more specific than .reveal, so it would otherwise
+     win the cascade and silently drop .reveal's opacity/transform
+     transition. Declaring all three transitioned properties together
+     here (rather than splitting between the two rules) keeps the
+     reveal fade-in and the hover scale/brightness both working. */
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
 }
+
+.filmstrip img:hover {
+  transform: scale(1.015);
+  filter: brightness(1.05);
+}
+
+/* Staggered reveal as each image scrolls into the filmstrip's view. */
+.filmstrip img.reveal:nth-child(1) { transition-delay: 0s, 0s, 0s; }
+.filmstrip img.reveal:nth-child(2) { transition-delay: 0.05s, 0.05s, 0s; }
+.filmstrip img.reveal:nth-child(3) { transition-delay: 0.1s, 0.1s, 0s; }
+.filmstrip img.reveal:nth-child(4) { transition-delay: 0.15s, 0.15s, 0s; }
+.filmstrip img.reveal:nth-child(5) { transition-delay: 0.2s, 0.2s, 0s; }
+.filmstrip img.reveal:nth-child(6) { transition-delay: 0.25s, 0.25s, 0s; }
+.filmstrip img.reveal:nth-child(7) { transition-delay: 0.3s, 0.3s, 0s; }
+.filmstrip img.reveal:nth-child(8) { transition-delay: 0.35s, 0.35s, 0s; }
 
 .lightbox {
   position: fixed;
@@ -258,6 +296,11 @@ h3 {
   font-size: 1.3rem;
   line-height: 1;
   text-decoration: none !important;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.icon-link:hover {
+  transform: translateY(-3px) scale(1.1);
 }
 
 .icon-link svg {
@@ -295,6 +338,10 @@ h3 {
     height: auto;
     max-height: 500px;
   }
+
+.middle-column img:hover {
+  transform: translateY(var(--parallax-y, 0px)) scale(1.02);
+}
     
 h1 {
   margin-bottom: 10px;
@@ -325,6 +372,7 @@ footer {
 a {
   color: var(--text-color) !important; /* Links track the scroll-driven text color */
   text-decoration: underline !important;
+  transition: opacity 0.2s ease;
 }
 
 a:visited {
@@ -335,11 +383,34 @@ a:visited {
 a:hover {
   color: var(--text-color) !important;
   text-decoration: underline !important;
+  opacity: 0.6;
 }
 
 a:active {
   color: var(--text-color) !important;
   text-decoration: underline !important;
+}
+
+/* Scroll reveal: elements fade + slide into place as they enter view
+   (see script.js's IntersectionObserver-based reveal module). */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Prevent horizontal scroll */

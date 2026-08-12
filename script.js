@@ -8,17 +8,29 @@
   function updateTheme() {
     var scrollable = document.documentElement.scrollHeight - window.innerHeight;
     var progress = scrollable > 0 ? clamp(window.scrollY / scrollable, 0, 1) : 0;
-    var bg = Math.round(255 - progress * 255);
+    var base = 255 - progress * 255;
 
     // Text flips instantly between black and white at a fixed background
     // threshold instead of crossfading through the intermediate grays. A
     // crossfade would necessarily pass through a color that matches the
     // background at some point (zero contrast); an instant flip never does,
     // since text is always pure black or pure white.
-    var text = bg > 127 ? 0 : 255;
+    var text = base > 127 ? 0 : 255;
+
+    // Two-stop sheen instead of a flat fill (see --bg-a/--bg-b in
+    // style.css), plus a faint cool tint that grows with darkness so the
+    // bottom of the page reads as gunmetal charcoal rather than flat
+    // black — gives the background some dimension instead of a plain
+    // grayscale ramp.
+    var tint = Math.round(progress * 10);
+    var lightStop = clamp(base + 16, 0, 255);
+    var darkStop = clamp(base - 14, 0, 255);
+    var bgA = 'rgb(' + lightStop + ', ' + lightStop + ', ' + clamp(lightStop + tint, 0, 255) + ')';
+    var bgB = 'rgb(' + darkStop + ', ' + darkStop + ', ' + clamp(darkStop + tint, 0, 255) + ')';
 
     var root = document.documentElement.style;
-    root.setProperty('--bg-color', 'rgb(' + bg + ', ' + bg + ', ' + bg + ')');
+    root.setProperty('--bg-a', bgA);
+    root.setProperty('--bg-b', bgB);
     root.setProperty('--text-color', 'rgb(' + text + ', ' + text + ', ' + text + ')');
     ticking = false;
   }
@@ -107,6 +119,8 @@
     // no manual repositioning needed.
     if (window.__updateScrollTheme) window.__updateScrollTheme();
     if (window.__initFilmstrip) window.__initFilmstrip(root);
+    if (window.__initReveal) window.__initReveal(root);
+    if (window.__updateParallax) window.__updateParallax();
   }
 
   function navigateTo(href) {
@@ -238,4 +252,76 @@
   } else {
     init();
   }
+})();
+
+// --- Scroll reveal: fade + slide elements in as they enter view --------
+(function () {
+  var observer = null;
+
+  function getObserver() {
+    if (observer) return observer;
+    observer = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          entries[i].target.classList.add('reveal-visible');
+          observer.unobserve(entries[i].target);
+        }
+      }
+    }, { threshold: 0.15 });
+    return observer;
+  }
+
+  function initReveal(container) {
+    var obs = getObserver();
+    var els = container.querySelectorAll('.reveal:not(.reveal-visible)');
+    for (var i = 0; i < els.length; i++) {
+      obs.observe(els[i]);
+    }
+  }
+
+  window.__initReveal = initReveal;
+
+  function init() {
+    initReveal(document.body);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// --- Subtle parallax depth ------------------------------------------------
+// Elements with .parallax (hero photo, bio photo) drift slightly against
+// the scroll based on their position relative to the viewport center — CSS
+// owns the actual transform (reading --parallax-y) so hover states can
+// still add their own scale on top without one clobbering the other.
+(function () {
+  var PARALLAX_FACTOR = 0.06;
+  var ticking = false;
+
+  function updateParallax() {
+    var els = document.querySelectorAll('.parallax');
+    for (var i = 0; i < els.length; i++) {
+      var rect = els[i].getBoundingClientRect();
+      var center = rect.top + rect.height / 2;
+      var offset = (window.innerHeight / 2 - center) * PARALLAX_FACTOR;
+      els[i].style.setProperty('--parallax-y', offset.toFixed(1) + 'px');
+    }
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+
+  document.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  updateParallax();
+
+  window.__updateParallax = updateParallax;
 })();
