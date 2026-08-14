@@ -149,8 +149,17 @@
           swapContent(html);
           pageRoot.classList.remove(outClass);
           pageRoot.classList.add(inClass);
-          void pageRoot.offsetWidth; // force reflow before animating in
-          pageRoot.classList.remove(inClass);
+          // Two nested rAFs (rather than a synchronous offsetWidth reflow)
+          // guarantee the browser has actually painted the off-screen
+          // "slide-in-start" position before we remove it — a single
+          // synchronous reflow doesn't reliably guarantee a paint happened
+          // in between, which could leave the transition never triggering
+          // and the content stuck off-screen.
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              pageRoot.classList.remove(inClass);
+            });
+          });
         })
         .catch(function () {
           window.location.href = href; // fall back to a normal navigation
