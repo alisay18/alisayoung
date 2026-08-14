@@ -28,10 +28,18 @@
     var bgA = 'rgb(' + lightStop + ', ' + lightStop + ', ' + clamp(lightStop + tint, 0, 255) + ')';
     var bgB = 'rgb(' + darkStop + ', ' + darkStop + ', ' + clamp(darkStop + tint, 0, 255) + ')';
 
+    // Shadow color follows the same hue as the text (dark shadow on light
+    // backgrounds, soft light glow once the theme flips to white-on-black)
+    // so text still reads as "lifted" instead of the shadow disappearing
+    // into a same-tone background.
+    var shadowRgb = text + ', ' + text + ', ' + text;
+
     var root = document.documentElement.style;
     root.setProperty('--bg-a', bgA);
     root.setProperty('--bg-b', bgB);
     root.setProperty('--text-color', 'rgb(' + text + ', ' + text + ', ' + text + ')');
+    root.setProperty('--shadow-strong', 'rgba(' + shadowRgb + ', 0.32)');
+    root.setProperty('--shadow-soft', 'rgba(' + shadowRgb + ', 0.16)');
     ticking = false;
   }
 

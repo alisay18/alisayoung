@@ -5,6 +5,12 @@
   --bg-a: #ffffff;
   --bg-b: #f3f3f5;
   --text-color: #000000;
+  /* Translucent versions of --text-color (same hue direction: a soft dark
+     shadow on light backgrounds, a soft glow on dark ones) used for the
+     "lifted off the page" text-shadow depth. script.js keeps these in
+     sync with --text-color as the theme shifts. */
+  --shadow-strong: rgba(0, 0, 0, 0.22);
+  --shadow-soft: rgba(0, 0, 0, 0.12);
 }
 
 html,
@@ -16,7 +22,17 @@ body {
   margin: 0;
   padding: 0;
   color: var(--text-color);
+  /* background-attachment: fixed ties the gradient's 0%/100% stops to the
+     viewport instead of the full (much taller) document height. Without
+     it, the same two stops get stretched across the entire scrollable
+     page, so whatever's currently in view is just a thin slice of that
+     span — showing a color that drifts out of sync with the intended
+     "current scroll depth" shade, and (combined with header.hero painting
+     its own separate copy of the gradient) a visible seam where the two
+     independently-scoped gradients met. One fixed, viewport-relative
+     gradient avoids both. */
   background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -80,7 +96,10 @@ header.hero {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
+  /* Transparent so the single fixed gradient on html/body shows through
+     continuously instead of this element painting its own separate copy
+     (which is what caused the hard seam where the two met). */
+  background: transparent;
 }
 
 .hero {
@@ -121,6 +140,7 @@ h1 {
   font-size: 3rem;
   margin: 0;
   z-index: 1;
+  text-shadow: 0 10px 28px var(--shadow-strong);
 }
 
 .scroll-arrow {
@@ -216,7 +236,7 @@ h3 {
      transition. Declaring all three transitioned properties together
      here (rather than splitting between the two rules) keeps the
      reveal fade-in and the hover scale/brightness both working. */
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
 }
 
@@ -295,6 +315,9 @@ h3 {
   /* 14.4px assuming browser default 16px */
   line-height: 1.5;
   box-sizing: border-box;
+  /* Soft, barely-there shadow so the text reads as sitting slightly above
+     the page instead of printed flat onto it. */
+  text-shadow: 0 3px 10px var(--shadow-soft);
 }
 
 .middle-column {
@@ -368,13 +391,13 @@ a:active {
   text-decoration: underline !important;
 }
 
-/* Scroll reveal: elements fade + slide into place as they enter view
+/* Scroll reveal: elements fade + float up into place as they enter view
    (see script.js's IntersectionObserver-based reveal module). */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(44px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-visible {
