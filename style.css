@@ -58,6 +58,19 @@ body {
   transform: translateX(100%);
 }
 
+/* Back navigation (data-nav="back" links) reverses both halves of the
+   motion: the current page exits to the right instead of the left, and
+   the destination enters from the left instead of the right — so going
+   back visually retraces the same path forward navigation took. */
+#content-root.slide-out-reverse {
+  transform: translateX(100%);
+}
+
+#content-root.slide-in-start-reverse {
+  transition: none;
+  transform: translateX(-100%);
+}
+
 header h1 {
   color: var(--text-color);
   padding: 10px 20px;

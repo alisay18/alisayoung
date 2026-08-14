@@ -86,8 +86,9 @@
   function onLinkClick(e) {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     var href = e.currentTarget.getAttribute('href');
+    var isBack = e.currentTarget.getAttribute('data-nav') === 'back';
     e.preventDefault();
-    navigateTo(href);
+    navigateTo(href, isBack);
   }
 
   // Only the <main> content area swaps and slides — the hero header (always
@@ -127,10 +128,14 @@
     if (window.__updateParallax) window.__updateParallax();
   }
 
-  function navigateTo(href) {
+  function navigateTo(href, isBack) {
     var pageRoot = getContentRoot();
-    var outClass = 'slide-out';
-    var inClass = 'slide-in-start';
+    // Forward navigation exits left / enters from the right. Back links
+    // (marked with data-nav="back" in the HTML) reverse both halves, so
+    // the motion retraces the same path forward navigation took instead
+    // of looking identical to it.
+    var outClass = isBack ? 'slide-out-reverse' : 'slide-out';
+    var inClass = isBack ? 'slide-in-start-reverse' : 'slide-in-start';
 
     // Force a reflow before adding the class so the browser registers the
     // element's current (non-slid) state as the transition's starting
