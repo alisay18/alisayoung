@@ -22,24 +22,73 @@ body {
   margin: 0;
   padding: 0;
   color: var(--text-color);
-  /* background-attachment: fixed ties the gradient's 0%/100% stops to the
-     viewport instead of the full (much taller) document height. Without
-     it, the same two stops get stretched across the entire scrollable
-     page, so whatever's currently in view is just a thin slice of that
-     span — showing a color that drifts out of sync with the intended
-     "current scroll depth" shade, and (combined with header.hero painting
-     its own separate copy of the gradient) a visible seam where the two
-     independently-scoped gradients met. One fixed, viewport-relative
-     gradient avoids both. */
-  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
-  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
+/* The gradient lives on html only (not body) so it paints as the page
+   canvas, behind absolutely everything — including the z-index:-1
+   .bg-shapes blobs below. When both html and body painted their own copy
+   (the old setup), body's copy is an ordinary in-flow element background
+   and paints *after* negative-z-index descendants in the stacking order,
+   which silently covered the blobs completely.
+   background-attachment: fixed ties the gradient's 0%/100% stops to the
+   viewport instead of the full (much taller) document height — otherwise
+   the same two stops get stretched across the whole scrollable page, so
+   whatever's in view is a thin slice of that span, drifting out of sync
+   with the intended "current scroll depth" shade. */
+html {
+  background: linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
+  background-attachment: fixed;
+}
+
 .main-content {
   flex: 1 0 auto;
+}
+
+/* Soft background blobs: fixed to the viewport (not the document) so they
+   never create the stretched-gradient seam issue. mix-blend-mode: screen
+   makes them nearly invisible against the white top of the page and only
+   read as a faint glow once the gradient has darkened — no hard edges,
+   since the blur + radial fade both taper to fully transparent. */
+.bg-shapes {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-shapes span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  mix-blend-mode: screen;
+}
+
+.bg-shapes span:nth-child(1) {
+  width: 50vw;
+  height: 50vw;
+  top: -8vw;
+  left: -8vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.65) 40%, rgba(255, 255, 255, 0) 75%);
+}
+
+.bg-shapes span:nth-child(2) {
+  width: 55vw;
+  height: 55vw;
+  bottom: -16vw;
+  right: -12vw;
+  background: radial-gradient(circle, rgba(150, 170, 225, 0.95) 0%, rgba(150, 170, 225, 0.6) 40%, rgba(150, 170, 225, 0) 75%);
+}
+
+.bg-shapes span:nth-child(3) {
+  width: 36vw;
+  height: 36vw;
+  top: 35vh;
+  left: 55vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.45) 40%, rgba(255, 255, 255, 0) 75%);
 }
 
 /* Slide content transitions (see script.js) — only the <main> content area
