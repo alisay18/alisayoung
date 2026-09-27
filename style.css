@@ -320,7 +320,10 @@ h3 {
 .column {
   flex: 1;
   flex-shrink: 0;
-  overflow: auto;
+  /* visible (not auto) so a child's box-shadow — e.g. .project-card's
+     soft lift — can blur outward past the column's own edge instead of
+     getting clipped into a hard cutoff right where the column ends. */
+  overflow: visible;
   padding-top: 0px;
   /* Adjust this value as needed */
   padding-left: 10px;
