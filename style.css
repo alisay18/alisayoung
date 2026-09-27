@@ -336,6 +336,16 @@ h3 {
   text-shadow: 0 3px 10px var(--shadow-soft);
 }
 
+/* Sub-pages where the first column is just a "back" link: it shouldn't
+   claim an equal flex share of the row when it barely has any content,
+   since that pushes whatever's in the next column (e.g. a card) way off
+   to the right with a big empty gap on the left. Let it size to its own
+   content and give the rest of the row to what follows. */
+.back-column {
+  flex: 0 0 auto;
+  padding-right: 24px;
+}
+
 .middle-column {
   flex: 1.5;
   padding: 60px 30px 0px 00px;
@@ -367,15 +377,29 @@ h1 {
   margin-top: 0;
 }
 
-/* Project entries: a card (border + lifted shadow) instead of plain text
-   sitting flush in the column, so a project reads as a distinct object
-   with depth rather than another paragraph in the page. */
-.project-card {
+/* A bordered, lifted-shadow card instead of plain text/columns sitting
+   flush against the page, so content reads as a distinct object with
+   depth. Used for project entries and the home page intro alike. */
+.card {
   margin-top: 24px;
   padding: 28px 30px;
   border: 1px solid var(--shadow-soft);
   border-radius: 18px;
   box-shadow: 0 30px 60px var(--shadow-soft);
+}
+
+/* When a card is the direct child of .container (the home page intro),
+   it takes over the row layout that .container normally provides itself,
+   so the three columns sit side by side inside the card instead of the
+   card being squeezed into just one of them. */
+.container > .card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+  margin-top: 0;
 }
 
 .project-label {
@@ -505,6 +529,10 @@ html, body { overflow-x: hidden; }
 @media (max-width: 767px) {
   .container {
     display: block !important; /* Switch to vertical stack */
+  }
+  .container > .card {
+    display: block !important;
+    padding: 22px 20px;
   }
   .column {
     width: 100% !important; /* Full-width columns */
