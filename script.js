@@ -148,7 +148,11 @@
     // working even if the transition doesn't actually run — e.g. a user
     // with reduced-motion preferences, or any other edge case.
     setTimeout(function () {
-      fetch(href)
+      // no-store: a plain fetch() otherwise uses the browser's normal HTTP
+      // cache, so a page visited before a deploy can keep serving its old
+      // cached content through the swipe transition indefinitely, even
+      // after the real file on the server has changed.
+      fetch(href, { cache: 'no-store' })
         .then(function (res) { return res.text(); })
         .then(function (html) {
           swapContent(html);
