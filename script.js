@@ -59,50 +59,6 @@
   window.__updateScrollTheme = updateTheme;
 })();
 
-// --- Soft background blobs ----------------------------------------------
-// A fixed layer of blurred blobs behind everything (see .bg-shapes in
-// style.css), injected once here rather than duplicated in every HTML
-// file so it stays consistent across pages and survives the slide
-// transitions untouched (it lives outside #content-root).
-(function () {
-  function init() {
-    if (document.querySelector('.bg-shapes')) return;
-    var wrap = document.createElement('div');
-    wrap.className = 'bg-shapes';
-    wrap.setAttribute('aria-hidden', 'true');
-    wrap.innerHTML = '<span></span><span></span><span></span>';
-    document.body.insertBefore(wrap, document.body.firstChild);
-
-    var spans = wrap.querySelectorAll('span');
-    var ticking = false;
-    function drift() {
-      var scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      var progress = scrollable > 0 ? Math.max(0, Math.min(1, window.scrollY / scrollable)) : 0;
-      // Barely-there vertical drift (a few vh) so the blobs feel alive
-      // without ever looking like they're "scrolling with" the content.
-      spans[0].style.transform = 'translateY(' + (progress * 6) + 'vh)';
-      spans[1].style.transform = 'translateY(' + (progress * -8) + 'vh)';
-      spans[2].style.transform = 'translateY(' + (progress * 4) + 'vh)';
-      ticking = false;
-    }
-    function onScroll() {
-      if (!ticking) {
-        requestAnimationFrame(drift);
-        ticking = true;
-      }
-    }
-    document.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    drift();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-
 // --- Slide page transitions -------------------------------------------
 // Intercepts clicks on internal links (index/projects/gallery) and swaps
 // the page content with a slide animation instead of a hard navigation.
