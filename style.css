@@ -364,6 +364,75 @@ h1 {
   margin-top: 0;
 }
 
+/* Project entries: a card (border + lifted shadow) instead of plain text
+   sitting flush in the column, so a project reads as a distinct object
+   with depth rather than another paragraph in the page. */
+.project-card {
+  margin-top: 24px;
+  padding: 28px 30px;
+  border: 1px solid var(--shadow-soft);
+  border-radius: 18px;
+  box-shadow: 0 30px 60px var(--shadow-soft);
+}
+
+.project-label {
+  margin: 22px 0 0;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* How-it-works steps: a connected vertical sequence instead of one dense
+   run-on sentence, so the flow reads as an actual system with stages. */
+.flow-steps {
+  list-style: none;
+  margin: 10px 0 0;
+  padding-left: 22px;
+  border-left: 1px solid var(--shadow-soft);
+}
+
+.flow-steps li {
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.flow-steps li:last-child {
+  padding-bottom: 0;
+}
+
+.flow-steps li::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-color);
+  box-shadow: 0 0 0 4px var(--shadow-soft);
+}
+
+/* Tools as individual tags instead of a comma-separated line, each with
+   its own subtle border/shadow so they read as distinct chips. */
+.tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.tool-tags li {
+  padding: 4px 14px;
+  font-size: 0.78rem;
+  border: 1px solid var(--shadow-soft);
+  border-radius: 999px;
+  box-shadow: 0 8px 16px var(--shadow-soft);
+}
+
 footer {
   text-align: left;
   padding: 10px;
