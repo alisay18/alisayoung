@@ -475,6 +475,15 @@ a:active {
   text-decoration: underline !important;
 }
 
+/* Back links (e.g. "&larr; BACK HOME") read as navigation, not inline
+   text, so they skip the underline the rest of the site's links use. */
+a[data-nav="back"],
+a[data-nav="back"]:visited,
+a[data-nav="back"]:hover,
+a[data-nav="back"]:active {
+  text-decoration: none !important;
+}
+
 /* Scroll reveal: elements fade + float up into place as they enter view
    (see script.js's IntersectionObserver-based reveal module). */
 .reveal {
